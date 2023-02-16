@@ -1,6 +1,12 @@
+using Models;
+using Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.Configure<PeopleDatabaseSettings>(
+    builder.Configuration.GetSection("PeopleDatabase"));
+builder.Services.AddSingleton<PersonService>();
 
 builder.Services.AddControllersWithViews();
 
