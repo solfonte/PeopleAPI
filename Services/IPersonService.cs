@@ -2,7 +2,7 @@ using Models;
 
 namespace Services;
 
-interface IPersonService {
+public interface IPersonService {
 
     Task<List<Person>> GetAsync();
 
