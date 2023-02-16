@@ -4,8 +4,8 @@ using MongoDB.Driver;
 
 namespace Services;
 
-public class PersonService
-{
+public class PersonMongoService : IPersonService {
+
     private readonly IMongoCollection<Person> _personCollection;
 
     public PersonService(
