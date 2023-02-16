@@ -8,7 +8,7 @@ public class PersonMongoService : IPersonService {
 
     private readonly IMongoCollection<Person> _personCollection;
 
-    public PersonService(
+    public PersonMongoService(
         IOptions<PeopleDatabaseSettings> peopleDatabaseSettings)
     {
         var mongoClient = new MongoClient(
@@ -21,6 +21,7 @@ public class PersonMongoService : IPersonService {
             peopleDatabaseSettings.Value.PersonCollectionName);
     }
 
-    public async Task<List<Person>> GetAsync() =>
-        await _personCollection.Find(_ => true).ToListAsync();
+    public async Task<List<Person>> GetAsync() {
+        return await _personCollection.Find(_ => true).ToListAsync();
+    }
 }
