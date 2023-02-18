@@ -21,7 +21,7 @@ public class PersonMongoService : IPersonService {
             peopleDatabaseSettings.Value.PersonCollectionName);
     }
 
-    public async Task<List<Person>> GetAsync() {
+    public async Task<List<Person>> getPeople() {
         return await _personCollection.Find(_ => true).ToListAsync();
     }
 }

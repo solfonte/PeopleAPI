@@ -6,7 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.Configure<PeopleDatabaseSettings>(
     builder.Configuration.GetSection("PeopleDatabase"));
-builder.Services.AddSingleton<PersonService>();
+builder.Services.AddSingleton<IPersonService, PersonMongoService>();
+builder.Services.AddSingleton<PeopleRepository>();
 
 builder.Services.AddControllersWithViews();
 

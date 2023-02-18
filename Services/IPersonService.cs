@@ -4,7 +4,7 @@ namespace Services;
 
 public interface IPersonService {
 
-    Task<List<Person>> GetAsync();
+    Task<List<Person>> getPeople();
 
     
 }
