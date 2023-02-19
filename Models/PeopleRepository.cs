@@ -9,7 +9,7 @@ public class PeopleRepository {
         _personService = personService;
     }
 
-    public async Task<List<Person>> getPeople(){
+    public async Task<List<Person>> GetPeople(){
         return await _personService.getPeople();
     }
 }

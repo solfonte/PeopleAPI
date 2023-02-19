@@ -9,16 +9,14 @@ namespace Controllers;
 
 public class PersonController : ControllerBase {
 
-    private readonly PeopleRepository _peopleRepository;
+    private readonly PersonManager _personManager;
 
-    public PersonController (PeopleRepository peopleRepository) =>
-        _peopleRepository = peopleRepository;
+    public PersonController (PersonManager personManager) =>
+        _personManager = personManager;
         
     [HttpGet]
     public async Task<List<Person>> GetAll() {
-        return await _peopleRepository.getPeople();
+        return await _personManager.GetPeople();
     } 
-
-
 
 }
