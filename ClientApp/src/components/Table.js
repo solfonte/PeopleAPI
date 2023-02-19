@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -37,20 +37,21 @@ export default function CustomizedTables(people) {
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
               <TableHead>
                 <TableRow>
-                  <StyledTableCell align="center">Name</StyledTableCell>
-                  <StyledTableCell align="center">Nationality</StyledTableCell>
-                  <StyledTableCell align="center">Age</StyledTableCell>
+                  <StyledTableCell align="center">Nombre</StyledTableCell>
+                  <StyledTableCell align="center">Apellido</StyledTableCell>
+
+                  <StyledTableCell align="center">N° de documento</StyledTableCell>
+                  <StyledTableCell align="center">Edad</StyledTableCell>
                   <StyledTableCell align="center">Age Stage</StyledTableCell>
                   <StyledTableCell align="center">Options</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {people.map((row) => (
-                  <StyledTableRow key={row.name}>
-                    <StyledTableCell align="center" component="th" scope="row">
-                      {row.name}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">{row.nationality}</StyledTableCell>
+                  <StyledTableRow key={row.FirstName}>
+                    <StyledTableCell align="center" component="th" scope="row">{row.FirstName}</StyledTableCell>
+                    <StyledTableCell align="center">{row.LastName}</StyledTableCell>
+                    <StyledTableCell align="center">{row.NationalID}</StyledTableCell>
                     <StyledTableCell align="center">{row.age}</StyledTableCell>
                     <StyledTableCell align="center">{row.ageStage}</StyledTableCell>
 
