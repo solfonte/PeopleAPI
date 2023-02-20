@@ -39,19 +39,18 @@ export default function CustomizedTables(people) {
                 <TableRow>
                   <StyledTableCell align="center">Nombre</StyledTableCell>
                   <StyledTableCell align="center">Apellido</StyledTableCell>
-
                   <StyledTableCell align="center">N° de documento</StyledTableCell>
                   <StyledTableCell align="center">Edad</StyledTableCell>
-                  <StyledTableCell align="center">Age Stage</StyledTableCell>
+                  <StyledTableCell align="center">Clasificación por edad</StyledTableCell>
                   <StyledTableCell align="center">Options</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {people.map((row) => (
                   <StyledTableRow key={row.FirstName}>
-                    <StyledTableCell align="center" component="th" scope="row">{row.FirstName}</StyledTableCell>
-                    <StyledTableCell align="center">{row.LastName}</StyledTableCell>
-                    <StyledTableCell align="center">{row.NationalID}</StyledTableCell>
+                    <StyledTableCell align="center" component="th" scope="row">{row.firstName}</StyledTableCell>
+                    <StyledTableCell align="center">{row.lastName}</StyledTableCell>
+                    <StyledTableCell align="center">{row.nationalID}</StyledTableCell>
                     <StyledTableCell align="center">{row.age}</StyledTableCell>
                     <StyledTableCell align="center">{row.ageStage}</StyledTableCell>
 
