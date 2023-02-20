@@ -19,4 +19,9 @@ public class PersonController : ControllerBase {
         return await _personManager.GetPeople();
     } 
 
+    [HttpPost]
+    public async Task<Person> SavePerson(Person person) {
+        return await _personManager.SavePerson(person);
+    }
+
 }

@@ -6,9 +6,10 @@ public class Person {
     // TODO: cambiar para que sea abstracto
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
+    public string? Id {get; set;}
     public string FirstName {get; set;} = default!;
     public string LastName {get; set;} = default!;
-    public string NationalID {get; set;} = default!;
+    public int NationalID {get; set;} = default!;
     public int Age {get; set;}
-    public string AgeStage {get; set;} = default!;
+    public string? AgeStage {get; set;}
 }
