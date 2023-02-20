@@ -1,17 +1,20 @@
-import { Counter } from "./components/Counter";
-import { Home } from "./components/Home";
 import { People } from "./components/People";
+import { NewPerson } from "./components/NewPerson";
 
 const AppRoutes = [
   {
-    path: '/counter',
-    element: <Counter />
+    index: 1,
+    element: <People/>
   },
   {
-    index: true,
-    path: '/fetch-people',
+    path: '/People',
     element: <People/>
+  },
+  {
+    path: '/New-Person',
+    element: <NewPerson/>
   }
+
 ];
 
 export default AppRoutes;
