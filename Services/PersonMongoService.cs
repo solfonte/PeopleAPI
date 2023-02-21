@@ -32,4 +32,8 @@ public class PersonMongoService : IPersonService {
     public async Task<Person> getPersonWithNationalID(int nationalID){
         return await _personCollection.Find(Builders<Person>.Filter.Eq("NationalID", nationalID)).Limit(1).SingleAsync();
     }
+
+    public async Task RemoveAsync(string id) {
+        await _personCollection.DeleteOneAsync(x => x.Id == id);
+    }
 }

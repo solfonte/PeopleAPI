@@ -2,14 +2,14 @@
 namespace Models;
 
 public class PersonManager {
-    private readonly PeopleRepository _peopleRepository;
+    private readonly IPeopleRepository _peopleRepository;
 
-    public PersonManager (PeopleRepository peopleRepository) {
+    public PersonManager (IPeopleRepository peopleRepository) {
         _peopleRepository = peopleRepository;
     }
 
-    public async Task<List<Person>> GetPeople() {
-        return await _peopleRepository.GetPeople();
+    public List<Person> GetPeople() {
+        return _peopleRepository.GetPeople();
     }
 
     public String defineAgeStage (int age) {
@@ -28,8 +28,13 @@ public class PersonManager {
         return stage;
     }
 
-    public async Task<Person> SavePerson(Person person) {
+    public Person SavePerson(Person person) {
         person.AgeStage = defineAgeStage(person.Age);
-        return await _peopleRepository.SavePerson(person);
+        return _peopleRepository.SavePerson(person);
     }
+
+    public void DeletePerson(String id) {
+        _peopleRepository.DeletePerson(id);
+    }
+
 }

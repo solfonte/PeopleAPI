@@ -15,13 +15,18 @@ public class PersonController : ControllerBase {
         _personManager = personManager;
         
     [HttpGet]
-    public async Task<List<Person>> GetAll() {
-        return await _personManager.GetPeople();
+    public List<Person> GetAll() {
+        List<Person> people =_personManager.GetPeople();
+        return people;
     } 
 
     [HttpPost]
-    public async Task<Person> SavePerson(Person person) {
-        return await _personManager.SavePerson(person);
+    public Person SavePerson(Person person) {
+        return _personManager.SavePerson(person);
     }
 
+    [HttpDelete("{id:length(24)}")]
+    public void DeletePerson(String id) {
+        _personManager.DeletePerson(id);
+    }
 }
