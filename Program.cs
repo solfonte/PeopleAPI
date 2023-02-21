@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<PeopleDatabaseSettings>(
     builder.Configuration.GetSection("PeopleDatabase"));
 builder.Services.AddSingleton<IPersonService, PersonMongoService>();
-builder.Services.AddSingleton<PeopleRepository>();
+builder.Services.AddSingleton<IPeopleRepository, PeopleRepository>();
 builder.Services.AddSingleton<PersonManager>();
 
 builder.Services.AddControllersWithViews();
