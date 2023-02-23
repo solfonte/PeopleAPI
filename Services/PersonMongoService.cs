@@ -29,7 +29,7 @@ public class PersonMongoService : IPersonService {
         await _personCollection.InsertOneAsync(person);
     }
 
-    public async Task<Person> getPersonWithNationalID(int nationalID){
+    public async Task<Person> getPersonWithNationalID(ulong nationalID){
         return await _personCollection.Find(Builders<Person>.Filter.Eq("NationalID", nationalID)).Limit(1).SingleAsync();
     }
 
