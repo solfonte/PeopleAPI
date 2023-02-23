@@ -42,7 +42,8 @@ public class PersonManagerTest {
             Age = 23,
         };
         personManager.SavePerson(person);
-        List<Person> people = personManager.GetPeople();
+        Dictionary<String, String> nameFilter = new Dictionary<string, string>();
+        List<Person> people = personManager.GetPeople(nameFilter);
         Assert.Single(people);
         Assert.Equal(person.FirstName, people[0].FirstName);
         Assert.Equal(person.LastName, people[0].LastName);
@@ -61,15 +62,61 @@ public class PersonManagerTest {
             Age = 23,
         };
         Person personTwo = new Person() {
-            FirstName = "Sol",
-            LastName = "Fonte",
-            NationalID = 2222222,
-            Age = 23,
+            FirstName = "John",
+            LastName = "Roe",
+            NationalID = 33333333,
+            Age = 98,
         };
         personManager.SavePerson(personOne);
         personManager.SavePerson(personTwo);
-
-        List<Person> people = personManager.GetPeople();
+        Dictionary<String, String> nameFilter = new Dictionary<string, string>();
+        List<Person> people = personManager.GetPeople(nameFilter);
         Assert.Equal(2, people.Count);
+    }
+
+    [Fact]
+    public void whenFilteringByFirstNameThePersonManagerReturnsTwoPeople() {
+        PersonManager personManager = new PersonManager(new PeopleRepositoryMock());
+        Person personOne = new Person() {
+            FirstName = "John",
+            LastName = "Doe",
+            NationalID = 2222222,
+            Age = 23,
+        };
+        Person personTwo = new Person() {
+            FirstName = "John",
+            LastName = "Roe",
+            NationalID = 33333333,
+            Age = 98,
+        };
+        personManager.SavePerson(personOne);
+        personManager.SavePerson(personTwo);
+        Dictionary<String, String> nameFilter = new Dictionary<string, string>();
+        nameFilter.Add("FirstName", "John");
+        List<Person> people = personManager.GetPeople(nameFilter);
+        Assert.Equal(2, people.Count);
+    }
+    [Fact]
+     public void whenFilteringByFirstNameAndLastNameThePersonManagerReturnsEmpty() {
+        PersonManager personManager = new PersonManager(new PeopleRepositoryMock());
+        Person personOne = new Person() {
+            FirstName = "John",
+            LastName = "Doe",
+            NationalID = 2222222,
+            Age = 23,
+        };
+        Person personTwo = new Person() {
+            FirstName = "John",
+            LastName = "Roe",
+            NationalID = 33333333,
+            Age = 98,
+        };
+        personManager.SavePerson(personOne);
+        personManager.SavePerson(personTwo);
+        Dictionary<String, String> nameFilter = new Dictionary<string, string>();
+        nameFilter.Add("FirstName", "John");
+        nameFilter.Add("LastName", "Jo");
+        List<Person> people = personManager.GetPeople(nameFilter);
+        Assert.Equal(0, people.Count);
     }
 }
