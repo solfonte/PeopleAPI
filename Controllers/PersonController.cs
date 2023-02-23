@@ -1,6 +1,6 @@
 using Models;
-using Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Web;
 
 namespace Controllers;
 
@@ -13,10 +13,29 @@ public class PersonController : ControllerBase {
 
     public PersonController (PersonManager personManager) =>
         _personManager = personManager;
-        
+
+
+    private Dictionary<String, String> makeNameFilter(QueryString QueryString){
+        var parsed = HttpUtility.ParseQueryString(this.Request.QueryString.ToString());
+        Dictionary<String, String> nameFilter = new Dictionary<string, string>();
+
+        if (parsed["FirstName"] != null) {
+            nameFilter.Add("FirstName", parsed["FirstName"]);
+        }
+
+        if (parsed["LastName"] != null) {
+            nameFilter.Add("LastName", parsed["LastName"]);
+        }
+
+        return nameFilter;
+    }
+    
     [HttpGet]
     public List<Person> GetAll() {
-        List<Person> people =_personManager.GetPeople();
+        Dictionary<String, String> nameFilter;
+        nameFilter = makeNameFilter(this.Request.QueryString);
+
+        List<Person> people = _personManager.GetPeople(nameFilter);
         return people;
     } 
 

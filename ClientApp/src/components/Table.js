@@ -39,7 +39,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 export default function CustomizedTables() {
     const [people, setPeople] = useState([]);
-
+    const [isFiltered, setFiltered] = useState(false);
+    
     useEffect(() => {
         fetch(`person`)
         .then((results) => {
@@ -59,6 +60,12 @@ export default function CustomizedTables() {
             setPeople(data);
         })
       }
+
+    const removeFilter = () => {
+      getPeople();
+      setFiltered(false);
+      console.log("removed")
+    }
 
 
     const deletePerson = async (p) => {
@@ -85,14 +92,15 @@ export default function CustomizedTables() {
 
     const filterToTable = (data) => {
       setPeople(data)
+      setFiltered(true)
     }
 
     return (
       <div>
-        <div class="row"> 
+        <Box align="center" m={2} pt={3}>
           <Filter filterToTable={filterToTable}/>
-          <Button onClick={getPeople} variant="contained" m={2}>borrar filtro</Button>
-        </div>
+          <Button onClick={removeFilter} disabled={!isFiltered} variant="contained" m={2}>borrar filtro</Button>
+        </Box>
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
               <TableHead>

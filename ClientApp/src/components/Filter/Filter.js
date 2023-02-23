@@ -5,7 +5,6 @@ import { useState} from 'react';
 
 
 export default function Filter({ filterToTable }) {
-    console.log('entra a filtrar')
     const [FilterFirstName, setFilterFirstName] = useState('');
     const [FilterLastName, setFilterLastName] = useState('');
     let queryString = `/person?`
@@ -13,7 +12,6 @@ export default function Filter({ filterToTable }) {
     queryString += FilterFirstName && FilterLastName ? `&` : ``;
     queryString += FilterLastName ? `LastName=${encodeURIComponent(FilterLastName)}` : ``;
 
-    console.log(queryString)
     const FilterPeople = async () => {
             await fetch(queryString)
                 .then((results) => {

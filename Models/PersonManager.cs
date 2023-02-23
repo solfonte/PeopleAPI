@@ -8,8 +8,36 @@ public class PersonManager {
         _peopleRepository = peopleRepository;
     }
 
-    public List<Person> GetPeople() {
-        return _peopleRepository.GetPeople();
+    private List<Person> getFilteredPeople (List<Person> people, Dictionary<String, String> nameFilter){
+        List<Person> filteredPeople = new List<Person>();
+        
+        if (nameFilter.ContainsKey("FirstName")){
+            String firstName = nameFilter["FirstName"];
+            foreach (var person in people){
+                if (person.FirstName.Contains(firstName, StringComparison.OrdinalIgnoreCase)){
+                    filteredPeople.Add(person);
+                }
+            }
+        }
+
+        if (nameFilter.ContainsKey("LastName")){
+            List<Person> filteredPeopleAux = new List<Person>();
+            String lastName = nameFilter["LastName"];
+            foreach (var person in filteredPeople){
+                if (person.LastName.Contains(lastName, StringComparison.OrdinalIgnoreCase)){
+                    filteredPeopleAux.Add(person);
+                }
+            }
+            filteredPeople = filteredPeopleAux;
+        }
+
+        return filteredPeople;
+    }
+
+    public List<Person> GetPeople(Dictionary<String, String> nameFilter) {
+        List<Person> people = _peopleRepository.GetPeople();
+        if (nameFilter.Count == 0) return people;
+        return getFilteredPeople(people, nameFilter);
     }
 
     public String defineAgeStage (int age) {
