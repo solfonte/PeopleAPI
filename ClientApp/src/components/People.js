@@ -1,6 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import CustomizedTables from './Table';
-
 
 export const People = () => {
 
@@ -15,7 +14,12 @@ export const People = () => {
         .then(data => {
             setPeople(data);
         })
-    },[])
+    },[]);
 
-    return CustomizedTables(people)
+    return (
+        <main>
+            <CustomizedTables people={people}/>
+        </main>
+               
+    )
 }
