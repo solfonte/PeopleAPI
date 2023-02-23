@@ -38,7 +38,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   
 
 export default function CustomizedTables() {
-  const [people, setPeople] = useState([]);
+    const [people, setPeople] = useState([]);
 
     useEffect(() => {
         fetch(`person`)
@@ -50,8 +50,18 @@ export default function CustomizedTables() {
         })
       },[]);
 
+    const getPeople = async () => {
+      await fetch(`person`)
+        .then((results) => {
+            return results.json();
+        })
+        .then(data => {
+            setPeople(data);
+        })
+      }
+
+
     const deletePerson = async (p) => {
-      console.log("entre aaaa")
       console.log(p.id)
 
       
@@ -69,15 +79,20 @@ export default function CustomizedTables() {
       if (response.status === 200) {
         console.log("okooo")
       }
-  }
-  const filterToTable = (data) => {
-    setPeople(data)
-    console.log('settea la daata')
-  }
+      //TODO: mensaje exitoso
+      //TODO: que se actualicen las personas porque ahora hay menos
+    }
+
+    const filterToTable = (data) => {
+      setPeople(data)
+    }
 
     return (
       <div>
-        <Filter filterToTable={filterToTable}/>
+        <div class="row"> 
+          <Filter filterToTable={filterToTable}/>
+          <Button onClick={getPeople} variant="contained" m={2}>borrar filtro</Button>
+        </div>
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
               <TableHead>
