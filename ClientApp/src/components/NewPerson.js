@@ -36,7 +36,6 @@ export const NewPerson = () => {
             },
             
             body: JSON.stringify({
-                "_id": "str",
                 "FirstName": firstName,
                 "LastName": lastName,
                 "NationalID": nationalID,
@@ -123,7 +122,7 @@ export const NewPerson = () => {
         </Box>
         <Box align="center" m={2} pt={3}>
                 <Button onClick={trySubmit} variant="contained">Agregar</Button>
-      </Box>
+        </Box>
       </Box>
     );
   }
