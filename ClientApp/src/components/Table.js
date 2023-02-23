@@ -7,7 +7,14 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { Component } from 'react';
+import {useState, useEffect} from 'react';
+import Filter from './Filter/Filter';
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -30,9 +37,47 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   }));
   
 
+export default function CustomizedTables() {
+  const [people, setPeople] = useState([]);
 
-export default function CustomizedTables(people) {
+    useEffect(() => {
+        fetch(`person`)
+        .then((results) => {
+            return results.json();
+        })
+        .then(data => {
+            setPeople(data);
+        })
+      },[]);
+
+    const deletePerson = async (p) => {
+      console.log("entre aaaa")
+      console.log(p.id)
+
+      
+      const deleteParameters = {
+        method: "DELETE",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+      };
+      let response = await fetch (
+        `person/${p.id}`,
+        deleteParameters
+      )
+
+      if (response.status === 200) {
+        console.log("okooo")
+      }
+  }
+  const filterToTable = (data) => {
+    setPeople(data)
+    console.log('settea la daata')
+  }
+
     return (
+      <div>
+        <Filter filterToTable={filterToTable}/>
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
               <TableHead>
@@ -56,7 +101,7 @@ export default function CustomizedTables(people) {
 
                     <StyledTableCell align="center">
                         <div direction="row" align="center" spacing={0.5}>
-                            <Button variant="outlined" color="error">Erase</Button>
+                            <Button onClick={() => deletePerson(row)} variant="outlined" color="error">Erase</Button>
                             <Button color="secondary">Edit</Button>
                         </div>
                     </StyledTableCell>
@@ -65,5 +110,6 @@ export default function CustomizedTables(people) {
               </TableBody>
             </Table>
           </TableContainer>
+          </div>
     )
 }
