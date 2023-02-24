@@ -34,7 +34,6 @@ public class PersonController : ControllerBase {
     public List<Person> GetAll() {
         Dictionary<String, String> nameFilter;
         nameFilter = makeNameFilter(this.Request.QueryString);
-
         List<Person> people = _personManager.GetPeople(nameFilter);
         return people;
     } 
@@ -47,5 +46,19 @@ public class PersonController : ControllerBase {
     [HttpDelete("{id:length(24)}")]
     public void DeletePerson(String id) {
         _personManager.DeletePerson(id);
+    }
+
+    [HttpGet("{id:length(24)}")]
+    public Person GetPerson(String id) {
+        return _personManager.GetPerson(id);
+    }
+
+    [HttpPatch("{id:length(24)}")]
+    public void PatchPerson(String id, Person person) {
+        person.Id = id;
+        Console.Write("aca entra?");
+
+         _personManager.PatchPerson(id, person);
+        
     }
 }

@@ -7,4 +7,8 @@ public interface IPeopleRepository {
     Person SavePerson(Person person);
 
     void DeletePerson(String id);
+
+    Person PatchPerson(String id, Person person);
+
+    Person GetPerson(String id);
 }

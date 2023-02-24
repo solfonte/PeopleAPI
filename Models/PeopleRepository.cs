@@ -32,6 +32,28 @@ public class PeopleRepository: IPeopleRepository {
     }
 
     public void DeletePerson(String id) {
-        Task t =_deletePerson(id);
+        Task t = _deletePerson(id);
     }
+
+    private async Task<Person> _patchPerson(String id, Person person){
+        await _personService.UpdateAsync(id, person);
+        Person updatedPerson = await _personService.GetPersonWithId(id);
+        return updatedPerson;
+    }
+
+    public Person PatchPerson(String id, Person person){
+        Task<Person> t = _patchPerson(id, person);
+        return t.Result;
+    }
+
+    private async Task<Person> _getPerson(String id) {
+        Person person = await _personService.GetPersonWithId(id);
+        return person;
+    }
+
+    public Person GetPerson(String id){
+        Task<Person> t = _getPerson(id);
+        return t.Result;
+    }
+
 }

@@ -65,4 +65,13 @@ public class PersonManager {
         _peopleRepository.DeletePerson(id);
     }
 
+    public Person PatchPerson(String id, Person person) {
+        person.AgeStage = defineAgeStage(person.Age);
+        return _peopleRepository.PatchPerson(id, person);
+    }
+
+    public Person GetPerson(String id){
+        return _peopleRepository.GetPerson(id);
+    }
+
 }

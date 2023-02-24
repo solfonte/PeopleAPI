@@ -36,4 +36,13 @@ public class PersonMongoService : IPersonService {
     public async Task RemoveAsync(string id) {
         await _personCollection.DeleteOneAsync(x => x.Id == id);
     }
+
+    public async Task UpdateAsync(string id, Person updatedPerson){
+        await _personCollection.ReplaceOneAsync(x => x.Id == id, updatedPerson);
+    }
+
+    public async Task<Person> GetPersonWithId(string id){
+        return await _personCollection.Find(Builders<Person>.Filter.Eq("Id", id)).Limit(1).SingleAsync();
+    }
+
 }

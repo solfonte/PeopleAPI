@@ -18,4 +18,12 @@ class PeopleRepositoryMock : IPeopleRepository {
     }
 
     public void DeletePerson(String id){}
+
+    public Person PatchPerson(String id, Person person){
+        return new Person();
+    }
+
+    public Person GetPerson(String id){
+        return new Person();
+    }
 }

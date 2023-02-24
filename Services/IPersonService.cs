@@ -7,4 +7,6 @@ public interface IPersonService {
     Task savePerson(Person person);
     Task<Person> getPersonWithNationalID(ulong NationalID);
     Task RemoveAsync(string id);
+    Task UpdateAsync(string id, Person updatedPerson);
+    Task<Person> GetPersonWithId(string id);
 }
