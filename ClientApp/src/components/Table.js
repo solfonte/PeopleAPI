@@ -7,11 +7,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import DeletePersonButton from './DeletePerson/DeletePersonButton';
+import EditPersonButton from './EditPerson/EditPersonButton';
 
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { Component } from 'react';
 import {useState, useEffect} from 'react';
 import Filter from './Filter/Filter';
 
@@ -67,32 +67,14 @@ export default function CustomizedTables() {
       console.log("removed")
     }
 
-
-    const deletePerson = async (p) => {
-      console.log(p.id)
-
-      
-      const deleteParameters = {
-        method: "DELETE",
-        headers: {
-            'Content-Type': 'application/json',
-        },
-      };
-      let response = await fetch (
-        `person/${p.id}`,
-        deleteParameters
-      )
-
-      if (response.status === 200) {
-        console.log("okooo")
-      }
-      //TODO: mensaje exitoso
-      //TODO: que se actualicen las personas porque ahora hay menos
-    }
-
     const filterToTable = (data) => {
       setPeople(data)
       setFiltered(true)
+    } 
+
+    const deletePersonToTable = (id) => {
+      setPeople((current) => 
+        current.filter((person) => person.id !== id))
     }
 
     return (
@@ -115,7 +97,7 @@ export default function CustomizedTables() {
               </TableHead>
               <TableBody>
                 {people.map((row) => (
-                  <StyledTableRow key={row.FirstName}>
+                  <StyledTableRow key={row.id}>
                     <StyledTableCell align="center" component="th" scope="row">{row.firstName}</StyledTableCell>
                     <StyledTableCell align="center">{row.lastName}</StyledTableCell>
                     <StyledTableCell align="center">{row.nationalID}</StyledTableCell>
@@ -124,8 +106,8 @@ export default function CustomizedTables() {
 
                     <StyledTableCell align="center">
                         <div direction="row" align="center" spacing={0.5}>
-                            <Button onClick={() => deletePerson(row)} variant="outlined" color="error">Erase</Button>
-                            <Button color="secondary">Edit</Button>
+                            <DeletePersonButton data={row} deletePersonToTable={deletePersonToTable}/>
+                            <EditPersonButton data={row}/>
                         </div>
                     </StyledTableCell>
                   </StyledTableRow>
