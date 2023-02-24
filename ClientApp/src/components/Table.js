@@ -92,7 +92,7 @@ export default function CustomizedTables() {
                   <StyledTableCell align="center">N° de documento</StyledTableCell>
                   <StyledTableCell align="center">Edad</StyledTableCell>
                   <StyledTableCell align="center">Clasificación por edad</StyledTableCell>
-                  <StyledTableCell align="center">Options</StyledTableCell>
+                  <StyledTableCell align="center">Opciones</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
