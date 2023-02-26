@@ -1,20 +1,53 @@
 import {useState} from 'react';
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
 import {
   createTheme,
-  responsiveFontSizes,
-  ThemeProvider,
+  responsiveFontSizes
 } from '@mui/material/styles';
-import { List } from 'reactstrap';
-import { ListItem } from '@mui/material';
 import PersonForm from './PersonForm';
 
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
 
+const notifyResult = (status, setNotify) => {
+    if (status === 200){
+        setNotify({
+            isOpen: true,
+            message: 'Se agregó correctamente',
+            type: 'success'
+        })
+    }else if (status === 422){
+        setNotify({
+            isOpen: true,
+            message: 'Faltan argumentos',
+            type: 'error'
+        })
+        // TTODO: en rojo los required fields   
+    }else {
+        setNotify({
+            isOpen: true,
+            message: 'Ocurrió un error interno al agregar a la persona. No se pudo completar la operación',
+            type: 'error'
+        })
+    }
+}
+
+const sendPostRequest = async (body) => {
+    const postParameters = {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+        }, 
+        body: JSON.stringify(body)
+    };
+
+    let response = await fetch (
+        `person/`,
+        postParameters
+    )
+    
+    return response;
+}
 
 
 export const NewPerson = () => {
@@ -22,34 +55,16 @@ export const NewPerson = () => {
 
     const trySubmit = async (firstName, lastName, nationalID, age) => {
 
-        //TODO: validations
-        const postParameters = {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            }, 
-            body: JSON.stringify({
-                "FirstName": firstName,
-                "LastName": lastName,
-                "NationalID": nationalID,
-                "Age": age
-            })
-        };
-
-        let response = await fetch (
-            `person/`,
-            postParameters
-        )
-
-        if (response.status === 200) {
-            console.log("okooo")
+        const body = {
+            "FirstName": firstName,
+            "LastName": lastName,
+            "NationalID": '' + nationalID,
+            "Age": age
         }
-        //TODO: check return status
-        setNotify({
-            isOpen: true,
-            message: 'Se agrego correctamente',
-            type: 'success'
-        })
+
+        let response = await sendPostRequest(body);
+
+        notifyResult(response.status, setNotify);
     }
 
     return (
