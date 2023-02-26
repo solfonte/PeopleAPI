@@ -1,5 +1,22 @@
 import Button from '@mui/material/Button';
 
+const sendDeletePersonRequest = async (id) => {
+  const deleteParameters = {
+    method: "DELETE",
+    headers: {
+        Accept: "application/json",
+        'Content-Type': 'application/json',
+    },
+  };
+  let response = await fetch (
+    `person/${id}`,
+    deleteParameters
+  )
+
+  return response;
+}
+
+
 export default function DeletePersonButton (props) {
   const {data, deletePersonToTable, notify, setNotify, confirmDialog, setConfirmDialog} = props;
 
@@ -9,20 +26,10 @@ export default function DeletePersonButton (props) {
         ...confirmDialog,
         isOpen: false,
       })
-          const deleteParameters = {
-          method: "DELETE",
-          headers: {
-              Accept: "application/json",
-              'Content-Type': 'application/json',
-          },
-        };
-        let response = await fetch (
-          `person/${p.id}`,
-          deleteParameters
-        )
+      
+      let response = sendDeletePersonRequest(p.id);
   
         if (response.status === 200) {
-          console.log("okooo")
           //TODO: mensaje exitoso
         }
         deletePersonToTable(p.id);
