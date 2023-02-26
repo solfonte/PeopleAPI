@@ -53,7 +53,7 @@ export const EditPerson = () => {
         }else {
             setNotify({
                 isOpen: true,
-                message: 'Ocurrió un error al editar a la persona. No se pudo completar la operación',
+                message: 'Ocurrió un error interno al editar a la persona. No se pudo completar la operación',
                 type: 'error'
             })
         }
@@ -68,8 +68,7 @@ export const EditPerson = () => {
         "Age": age
     }
 
-    await sendEditPersonRequest(person.id, body, setResponseStatus);    
-       
+    await sendEditPersonRequest(person.id, body, setResponseStatus);      
     }
     return (
             <main>
