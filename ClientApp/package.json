@@ -5,10 +5,8 @@
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@mui/icons-material": "^5.11.9",
     "@mui/material": "^5.11.10",
-    "@mui/styled-engine-sc": "^5.11.9",
-    "@mui/x-data-grid": "^5.17.24",
-    "@mui/x-data-grid-generator": "^5.17.24",
     "bootstrap": "^5.2.0",
     "http-proxy-middleware": "^2.0.6",
     "jquery": "^3.6.0",
