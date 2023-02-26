@@ -7,28 +7,26 @@ import {
   ThemeProvider,
 } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import { List, ListGroupItem, ListInlineItem } from 'reactstrap';
+import { List } from 'reactstrap';
 import { ListItem } from '@mui/material';
 import {useState, useEffect} from 'react';
 import Button from '@mui/material/Button';
-
 import { useNavigate } from 'react-router-dom';
+import Notification from './Notification';
 
 
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
 
-export default function PersonForm({data, operationType, parentFunction}) {
+export default function PersonForm({data, operationType, parentFunction, setNotify, notify}) {
     const [firstName, setFirstName] = useState(data["firstName"]? data["firstName"] : '');
     const [lastName, setLastName] = useState(data["lastName"]? data["lastName"] : '');
     const [nationalID, setNationalID] = useState(data["nationalID"]? data["nationalID"] : '');
     const [age, setAge] = useState(data["age"]? data["age"] : '');
 
-    //let navigate = useNavigate(); 
     const HandleClick = () => {
       console.log("llega bienn")
       parentFunction(firstName, lastName, nationalID, age);
-      //navigate("/People");
     }
     
     return (
@@ -42,7 +40,7 @@ export default function PersonForm({data, operationType, parentFunction}) {
       >
         <div align="center">
           <ThemeProvider theme={theme}>
-            <Typography variant="h4">Edita a {data.name}</Typography>
+            <Typography variant="h4">{operationType} a una persona</Typography>
           </ThemeProvider>
         </div>
         <div align="left">
@@ -52,7 +50,7 @@ export default function PersonForm({data, operationType, parentFunction}) {
               <List sx={{ display: 'list-item' }}>
                 <ListItem>El nombre, el apellido y el DNI son campos requeridos.</ListItem>
               </List>
-
+              
               El nombre, el apellido y el DNI son campos requeridos.   
               Luego, si ingresaste una edad, vamos a poder calcular
               el AgeStage de la persona ingresada.
@@ -103,6 +101,7 @@ export default function PersonForm({data, operationType, parentFunction}) {
           onClick={HandleClick}>
           {operationType}
         </Button>
+        <Notification notify={notify} setNotify={setNotify}/>
       </Box>
     );
 }

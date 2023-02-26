@@ -14,6 +14,9 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import {useState, useEffect} from 'react';
 import Filter from './Filter/Filter';
+import Notification from './Notification';
+import ConfirmDialog from './ConfirmDialog';
+
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -40,6 +43,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 export default function CustomizedTables() {
     const [people, setPeople] = useState([]);
     const [isFiltered, setFiltered] = useState(false);
+    const [notify, setNotify] = useState({isOpen: false, message: '', type: ''});
+    const [confirmDialog, setConfirmDialog] = useState({isOpen: false, title:'', subtitle:''});
     
     useEffect(() => {
         fetch(`person`)
@@ -74,11 +79,15 @@ export default function CustomizedTables() {
 
     const deletePersonToTable = (id) => {
       setPeople((current) => 
-        current.filter((person) => person.id !== id))
+        current.filter((person) => person.id !== id));
+      setNotify()
     }
+
+    console.log(confirmDialog)
 
     return (
       <div>
+        <Notification notify={notify} setNotify={setNotify}/>
         <Box align="center" m={2} pt={3}>
           <Filter filterToTable={filterToTable}/>
           <Button onClick={removeFilter} disabled={!isFiltered} variant="contained" m={2}>borrar filtro</Button>
@@ -106,7 +115,11 @@ export default function CustomizedTables() {
 
                     <StyledTableCell align="center">
                         <div direction="row" align="center" spacing={0.5}>
-                            <DeletePersonButton data={row} deletePersonToTable={deletePersonToTable}/>
+                            <DeletePersonButton data={row} deletePersonToTable={deletePersonToTable}
+                            notify={notify} 
+                            setNotify={setNotify}
+                            confirmDialog={confirmDialog}
+                            setConfirmDialog={setConfirmDialog}/>
                             <EditPersonButton data={row}/>
                         </div>
                     </StyledTableCell>
@@ -115,6 +128,8 @@ export default function CustomizedTables() {
               </TableBody>
             </Table>
           </TableContainer>
+        <ConfirmDialog setConfirmDialog={setConfirmDialog} confirmDialog={confirmDialog}/>
+
           </div>
     )
 }

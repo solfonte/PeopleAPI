@@ -8,7 +8,6 @@ import {
   responsiveFontSizes,
   ThemeProvider,
 } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
 import { List } from 'reactstrap';
 import { ListItem } from '@mui/material';
 import PersonForm from './PersonForm';
@@ -19,6 +18,7 @@ theme = responsiveFontSizes(theme);
 
 
 export const NewPerson = () => {
+    const [notify, setNotify] = useState({isOpen: false, message: '', type: ''});
 
     const trySubmit = async (firstName, lastName, nationalID, age) => {
 
@@ -44,10 +44,19 @@ export const NewPerson = () => {
         if (response.status === 200) {
             console.log("okooo")
         }
-        
+        //TODO: check return status
+        setNotify({
+            isOpen: true,
+            message: 'Se agrego correctamente',
+            type: 'success'
+        })
     }
 
     return (
-      <PersonForm data={{}} parentFunction={trySubmit} operationType="Agregar"/>
+      <PersonForm data={{}}
+       parentFunction={trySubmit}
+        operationType="Agregar"
+        notify={notify}
+        setNotify={setNotify}/>
     );
   }
