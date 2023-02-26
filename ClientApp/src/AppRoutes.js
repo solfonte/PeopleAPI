@@ -1,11 +1,12 @@
 import { People } from "./components/People";
 import { NewPerson } from "./components/NewPerson";
 import { EditPerson } from "./components/EditPerson";
+import { Home } from "./components/Home"
 
 const AppRoutes = [
   {
     index: 1,
-    element: <People/>
+    element: <Home/>
   },
   {
     path: '/People',
