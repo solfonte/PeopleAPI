@@ -1,51 +1,74 @@
 import PersonForm from './PersonForm';
 import ReturnButton from './ReturnButton'
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Alert from '@mui/material/Alert';;
+import { useEffect, useState } from 'react';
 
-const sendEditPersonRequest = async (id, firstName, lastName, nationalID, age) => {
+const sendEditPersonRequest = async (id, body, setResponseStatus) => {
     const editParameters = {
         method: "PATCH",
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          "FirstName": firstName,
-          "LastName": lastName,
-          "NationalID": nationalID,
-          "Age": age
-        })
+        body: JSON.stringify(body)
       };
 
-      await fetch ("person/" + id, editParameters)
-      await fetch ("person/" + id)
-          .then((response) => {
-              if (response.status == 200){
-                  
-              }
-              return response.json()})
-          .then((data) => {sessionStorage.setItem("personToEdit", JSON.stringify(data))})
-      //TODO: return response 
-      
+    await fetch ("person/" + id, editParameters)
+            .then((response) => {
+                setResponseStatus({
+                    status: response.status
+                })
+                if(!response.ok) throw new Error(response.status);
+                return response.json()})
+            .then((data) => {
+                sessionStorage.setItem("personToEdit", JSON.stringify(data))
+            }).catch((e) => console.log(e))
 }
-
 
 export const EditPerson = () => {
     let person = JSON.parse(sessionStorage.getItem("personToEdit"))
-    const [status, setStatus] = useState(undefined);
+    console.log(person)
+    const [responseStatus, setResponseStatus] = useState({status: 0});
     const [notify, setNotify] = useState({isOpen: false, message: '', type: ''})
 
+    useEffect(() => {
+        if (responseStatus.status === 0) return;
+        if (responseStatus.status === 200){
+            setNotify({
+                isOpen: true,
+                message: 'Se edito correctamente',
+                type: 'success'
+            })
+        }else if (responseStatus.status === 422){
+            setNotify({
+                isOpen: true,
+                message: 'Faltan argumentos',
+                type: 'error'
+            })
+            // TTODO: en rojo los required fields   
+        }else if (responseStatus.status === 404){
+            setNotify({
+                isOpen: true,
+                message: 'No se encontró a la persona',
+                type: 'error'
+            })
+        }else {
+            setNotify({
+                isOpen: true,
+                message: 'Ocurrió un error al editar a la persona. No se pudo completar la operación',
+                type: 'error'
+            })
+        }
+    }, [responseStatus]);
+
+
     const EditPersonFields = async (firstName, lastName, nationalID, age) => {
-    
-    sendEditPersonRequest(person.id, firstName, lastName, nationalID, age)
-    
-    //TODO: check status
-    setNotify({
-        isOpen: true,
-        message: 'Se edito correctamente',
-        type: 'success'
-    })
+    const body = {
+        "FirstName": firstName,
+        "LastName": lastName,
+        "NationalID": '' + nationalID,
+        "Age": age
+    }
+
+    await sendEditPersonRequest(person.id, body, setResponseStatus);    
        
     }
     return (
