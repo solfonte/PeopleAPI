@@ -1,6 +1,7 @@
 using Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Web;
+using Exceptions;
 
 namespace Controllers;
 
@@ -31,34 +32,47 @@ public class PersonController : ControllerBase {
     }
     
     [HttpGet]
-    public List<Person> GetAll() {
+    public IActionResult GetAll() {
         Dictionary<String, String> nameFilter;
         nameFilter = makeNameFilter(this.Request.QueryString);
         List<Person> people = _personManager.GetPeople(nameFilter);
-        return people;
+        return Ok(people);
     } 
 
     [HttpPost]
-    public Person SavePerson(Person person) {
-        return _personManager.SavePerson(person);
+    public IActionResult SavePerson(Person person) {
+        try {
+            Person p = _personManager.SavePerson(person);
+            return Ok(p);
+        }catch (MissingArgumentException MissingArgException) {
+            return UnprocessableEntity();
+        }catch(PersonAlreadyExistsException AlreadyExistsException) {
+            return Conflict();
+        }catch (Exception e){
+            Console.Write("aca");
+            return Ok();
+        }
     }
 
     [HttpDelete("{id:length(24)}")]
-    public void DeletePerson(String id) {
+    public IActionResult DeletePerson(String id) {
         _personManager.DeletePerson(id);
+        return Ok();
     }
-
-    [HttpGet("{id:length(24)}")]
-    public Person GetPerson(String id) {
-        return _personManager.GetPerson(id);
-    }
-
+    
     [HttpPatch("{id:length(24)}")]
-    public void PatchPerson(String id, Person person) {
-        person.Id = id;
-        Console.Write("aca entra?");
+    public IActionResult PatchPerson(String id, Person person) {
 
-         _personManager.PatchPerson(id, person);
-        
+        try {
+            person.Id = id;
+            Person p = _personManager.PatchPerson(id, person);
+            return Ok(p);
+        }catch (MissingArgumentException e) {
+            return UnprocessableEntity(e.Message);
+        }catch(PersonNotFound e){
+            return NotFound(e.Message);
+        }catch(PersonAlreadyExistsException e){
+            return Conflict();
+        }
     }
 }
