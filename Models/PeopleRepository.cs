@@ -56,4 +56,12 @@ public class PeopleRepository: IPeopleRepository {
         return t.Result;
     }
 
+    private Task<Person> _getPersonWithNationalID (String nationalID){
+        return _personService.getPersonWithNationalID(nationalID);
+    }
+
+    public Person GetPersonWithNationalID(String nationalID){
+        Task<Person> t = _getPersonWithNationalID(nationalID);
+        return t.Result;
+    }
 }

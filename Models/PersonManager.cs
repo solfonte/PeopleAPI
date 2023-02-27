@@ -1,3 +1,4 @@
+using Exceptions;
 
 namespace Models;
 
@@ -40,9 +41,11 @@ public class PersonManager {
         return getFilteredPeople(people, nameFilter);
     }
 
-    public String defineAgeStage (int age) {
+    public String defineAgeStage (int? age) {
         List<String> ageStages = new List<String> {"Niño", "Adolescente", "Adulto", "Octogenario"};
         String stage = "";
+
+        if (age == default) return stage;
 
         if (age < 11) {
                 stage = ageStages[0];
@@ -55,8 +58,29 @@ public class PersonManager {
         }
         return stage;
     }
+    private bool missingArguments (Person person) {
+        return (String.IsNullOrEmpty(person.FirstName) ||
+                String.IsNullOrEmpty(person.LastName) ||
+                String.IsNullOrEmpty(person.NationalID));
+    }
+    private bool personAlreadyExists (Person person) {
+        bool personExists = false;
+        try{
+            Person p = _peopleRepository.GetPersonWithNationalID(person.NationalID);     
+            if (p.Id != null && person.Id != p.Id){
+                personExists = true;
+            }
+        }catch (Exception e){}
+            return personExists;
+    }
 
     public Person SavePerson(Person person) {
+        if (missingArguments(person)){
+            throw new MissingArgumentException();
+        }
+        if (personAlreadyExists(person)) {
+            throw new PersonAlreadyExistsException();
+        }
         person.AgeStage = defineAgeStage(person.Age);
         return _peopleRepository.SavePerson(person);
     }
@@ -66,6 +90,12 @@ public class PersonManager {
     }
 
     public Person PatchPerson(String id, Person person) {
+        if (missingArguments(person)){
+            throw new MissingArgumentException();
+        }
+        if (personAlreadyExists(person)) {
+            throw new PersonAlreadyExistsException();
+        }
         person.AgeStage = defineAgeStage(person.Age);
         return _peopleRepository.PatchPerson(id, person);
     }

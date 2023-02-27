@@ -11,4 +11,8 @@ public interface IPeopleRepository {
     Person PatchPerson(String id, Person person);
 
     Person GetPerson(String id);
+    
+    Person GetPersonWithNationalID(String nationalID);
+
+
 }
