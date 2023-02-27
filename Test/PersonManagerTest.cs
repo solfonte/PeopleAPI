@@ -38,7 +38,7 @@ public class PersonManagerTest {
         Person person = new Person() {
             FirstName = "John",
             LastName = "Doe",
-            NationalID = 2222222,
+            NationalID = "2222222",
             Age = 23,
         };
         personManager.SavePerson(person);
@@ -58,13 +58,13 @@ public class PersonManagerTest {
         Person personOne = new Person() {
             FirstName = "John",
             LastName = "Doe",
-            NationalID = 2222222,
+            NationalID = "2222222",
             Age = 23,
         };
         Person personTwo = new Person() {
             FirstName = "John",
             LastName = "Roe",
-            NationalID = 33333333,
+            NationalID = "33333333",
             Age = 98,
         };
         personManager.SavePerson(personOne);
@@ -80,13 +80,13 @@ public class PersonManagerTest {
         Person personOne = new Person() {
             FirstName = "John",
             LastName = "Doe",
-            NationalID = 2222222,
+            NationalID = "2222222",
             Age = 23,
         };
         Person personTwo = new Person() {
             FirstName = "John",
             LastName = "Roe",
-            NationalID = 33333333,
+            NationalID = "33333333",
             Age = 98,
         };
         personManager.SavePerson(personOne);
@@ -102,13 +102,13 @@ public class PersonManagerTest {
         Person personOne = new Person() {
             FirstName = "John",
             LastName = "Doe",
-            NationalID = 2222222,
+            NationalID = "2222222",
             Age = 23,
         };
         Person personTwo = new Person() {
             FirstName = "John",
             LastName = "Roe",
-            NationalID = 33333333,
+            NationalID = "33333333",
             Age = 98,
         };
         personManager.SavePerson(personOne);

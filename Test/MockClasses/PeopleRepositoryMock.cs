@@ -26,4 +26,6 @@ class PeopleRepositoryMock : IPeopleRepository {
     public Person GetPerson(String id){
         return new Person();
     }
+
+    public Person GetPersonWithNationalID(String nationalID){ return new Person();}
 }
