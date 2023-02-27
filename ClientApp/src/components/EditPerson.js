@@ -50,6 +50,13 @@ export const EditPerson = () => {
                 message: 'No se encontró a la persona',
                 type: 'error'
             })
+        }else if (responseStatus.status === 409){
+            setNotify({
+                isOpen: true,
+                message: 'Ya existe una persona con ese numero de DNI',
+                type: 'error'
+            })
+            // TTODO: en rojo los required fields   
         }else {
             setNotify({
                 isOpen: true,
