@@ -6,6 +6,11 @@ import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred';
 export default function ConfirmDialog (props){
     const {title, subtitle, color, confirmDialog, setConfirmDialog} = props;
 
+    const executeConfirmation = async () => {
+        setConfirmDialog({...confirmDialog, isOpen:false})
+        await confirmDialog.onConfirm()
+    }
+
     return (
         <Dialog open={confirmDialog.isOpen}>
             <ReportGmailerrorredIcon fontSize="large"/>
@@ -20,7 +25,7 @@ export default function ConfirmDialog (props){
                 </Typography>
             </DialogContent>
             <DialogActions>
-                <Button color="primary" variant="contained" onClick={confirmDialog.onConfirm}>Yes</Button>
+                <Button color="primary" variant="contained" onClick={executeConfirmation}>Yes</Button>
                 <Button color="primary" variant="outlined" onClick={() => setConfirmDialog({...confirmDialog, isOpen:false})}>No</Button>
             </DialogActions>
         </Dialog>

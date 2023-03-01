@@ -16,11 +16,6 @@ const sendDeletePersonRequest = async (id) => {
 export default function DeletePersonButton (props) {
     const {data, deletePersonToTable, notify, setNotify, confirmDialog, setConfirmDialog} = props;
     const deletePerson = async (p) => {
-      
-      setConfirmDialog({
-        ...confirmDialog,
-        isOpen: false,
-      })
         
       let response = await sendDeletePersonRequest(p.id);
       deletePersonToTable(p.id);
