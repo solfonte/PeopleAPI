@@ -48,9 +48,6 @@ public class PersonController : ControllerBase {
             return UnprocessableEntity();
         }catch(PersonAlreadyExistsException AlreadyExistsException) {
             return Conflict();
-        }catch (Exception e){
-            Console.Write("aca");
-            return Ok();
         }
     }
 

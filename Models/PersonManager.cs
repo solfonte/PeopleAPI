@@ -65,13 +65,13 @@ public class PersonManager {
     }
     private bool personAlreadyExists (Person person) {
         bool personExists = false;
-        try{
-            Person p = _peopleRepository.GetPersonWithNationalID(person.NationalID);     
-            if (p.Id != null && person.Id != p.Id){
-                personExists = true;
-            }
-        }catch (Exception e){}
-            return personExists;
+
+        Person p = _peopleRepository.GetPersonWithNationalID(person.NationalID);  
+        if (!String.IsNullOrEmpty(p.Id) && person.Id != p.Id){
+            personExists = true;
+        }
+
+        return personExists;
     }
 
     public Person SavePerson(Person person) {

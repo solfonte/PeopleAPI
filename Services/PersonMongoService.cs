@@ -30,7 +30,12 @@ public class PersonMongoService : IPersonService {
     }
 
     public async Task<Person> getPersonWithNationalID(string nationalID){
-        return await _personCollection.Find(Builders<Person>.Filter.Eq("NationalID", nationalID)).Limit(1).SingleAsync();
+        try {
+            Person person = await _personCollection.Find(Builders<Person>.Filter.Eq("NationalID", nationalID)).Limit(1).SingleAsync();
+            return person;
+        }catch (Exception e){
+            return new Person(); 
+        }
     }
 
     public async Task RemoveAsync(string id) {
