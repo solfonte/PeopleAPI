@@ -1,6 +1,7 @@
 using Xunit;
 using Models;
 using MockClasses;
+using Exceptions;
 
 public class PersonManagerTest {
 
@@ -88,7 +89,7 @@ public class PersonManagerTest {
             LastName = "Roe",
             NationalID = "33333333",
             Age = 98,
-        };
+        };        
         personManager.SavePerson(personOne);
         personManager.SavePerson(personTwo);
         Dictionary<String, String> nameFilter = new Dictionary<string, string>();
@@ -118,5 +119,20 @@ public class PersonManagerTest {
         nameFilter.Add("LastName", "Jo");
         List<Person> people = personManager.GetPeople(nameFilter);
         Assert.Equal(0, people.Count);
+    }
+
+    [Fact]
+     public void whenTryingToSaveAPersonWithANationalIdAlreadyExistingThePersonManagerThrowsException() {
+        PersonManager personManager = new PersonManager(new PeopleRepositoryMock());
+        Person person = new Person() {
+            FirstName = "John",
+            LastName = "Doe",
+            NationalID = "2222222",
+            Age = 23,
+        };
+
+        personManager.SavePerson(person);
+
+        Assert.Throws<PersonAlreadyExistsException>(() => personManager.SavePerson(person));
     }
 }
