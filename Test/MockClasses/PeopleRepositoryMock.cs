@@ -25,7 +25,16 @@ class PeopleRepositoryMock : IPeopleRepository {
 
     public Person GetPerson(String id){
         return new Person();
+
     }
 
-    public Person GetPersonWithNationalID(String nationalID){ return new Person();}
+    public Person GetPersonWithNationalID(String nationalID){ 
+        Person person = new Person();
+        foreach (Person p in mockPeople){
+            if (p.NationalID == nationalID){
+                person = p;
+            }
+        }
+        return person;
+    }
 }
