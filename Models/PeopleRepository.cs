@@ -20,7 +20,7 @@ public class PeopleRepository: IPeopleRepository {
 
     private async Task<Person> _savePerson(Person person){
         await _personService.savePerson(person);
-        return await _personService.getPersonWithNationalID(person.NationalID);
+        return await _personService.getPersonWithNationalID(person.GetNationalID());
     }
     public Person SavePerson(Person person){
         Task<Person> task = _savePerson(person);

@@ -6,7 +6,7 @@ namespace Services;
 
 public class PersonMongoService : IPersonService {
 
-    private readonly IMongoCollection<Person> _personCollection;
+    private readonly IMongoCollection<MongoPerson> _personCollection;
 
     public PersonMongoService(
         IOptions<PeopleDatabaseSettings> peopleDatabaseSettings)
@@ -17,24 +17,43 @@ public class PersonMongoService : IPersonService {
         var mongoDatabase = mongoClient.GetDatabase(
             peopleDatabaseSettings.Value.DatabaseName);
 
-        _personCollection = mongoDatabase.GetCollection<Person>(
+        _personCollection = mongoDatabase.GetCollection<MongoPerson>(
             peopleDatabaseSettings.Value.PersonCollectionName);
     }
 
     public async Task<List<Person>> getPeople() {
-        return await _personCollection.Find(_ => true).ToListAsync();
+        List<MongoPerson> mongoPeople = await _personCollection.Find(_ => true).ToListAsync();
+        List<Person> people = new List<Person>();
+
+        foreach(MongoPerson p in mongoPeople){
+            Person person = new Person(p.FirstName, p.LastName, p.NationalID, p.Age);
+            person.SetAgeStage(p.AgeStage);
+            person.SetId(p.Id);
+            people.Add(person);
+        }
+        return people;
     }
 
     public async Task savePerson(Person person) {
-        await _personCollection.InsertOneAsync(person);
+        MongoPerson mongoPerson = new MongoPerson(){
+            FirstName = person.GetFirstName(),
+            LastName = person.GetLastName(),
+            NationalID = person.GetNationalID(),
+            Age = person.GetAge(),
+            AgeStage = person.GetAgeStage(),
+        };
+        await _personCollection.InsertOneAsync(mongoPerson);
     }
 
     public async Task<Person> getPersonWithNationalID(string nationalID){
         try {
-            Person person = await _personCollection.Find(Builders<Person>.Filter.Eq("NationalID", nationalID)).Limit(1).SingleAsync();
+            MongoPerson mongoPerson = await _personCollection.Find(Builders<MongoPerson>.Filter.Eq("NationalID", nationalID)).Limit(1).SingleAsync();
+            Person person = new Person(mongoPerson.FirstName, mongoPerson.LastName, mongoPerson.NationalID, mongoPerson.Age);
+            person.SetAgeStage(mongoPerson.AgeStage);
+            person.SetId(mongoPerson.Id);
             return person;
         }catch (Exception e){
-            return new Person(); 
+            return new Person("","","",0); 
         }
     }
 
@@ -43,11 +62,24 @@ public class PersonMongoService : IPersonService {
     }
 
     public async Task UpdateAsync(string id, Person updatedPerson){
-        await _personCollection.ReplaceOneAsync(x => x.Id == id, updatedPerson);
+        Console.Write(updatedPerson.GetId());
+        MongoPerson updatedMongoPerson = new MongoPerson(){
+            Id = updatedPerson.GetId(),
+            FirstName = updatedPerson.GetFirstName(),
+            LastName = updatedPerson.GetLastName(),
+            NationalID = updatedPerson.GetNationalID(),
+            Age = updatedPerson.GetAge(),
+            AgeStage = updatedPerson.GetAgeStage(),
+        };
+        await _personCollection.ReplaceOneAsync(x => x.Id == id, updatedMongoPerson);
     }
 
     public async Task<Person> GetPersonWithId(string id){
-        return await _personCollection.Find(Builders<Person>.Filter.Eq("Id", id)).Limit(1).SingleAsync();
+        MongoPerson mongoPerson = await _personCollection.Find(Builders<MongoPerson>.Filter.Eq("Id", id)).Limit(1).SingleAsync();
+        Person person = new Person(mongoPerson.FirstName, mongoPerson.LastName, mongoPerson.NationalID, mongoPerson.Age);
+        person.SetAgeStage(mongoPerson.AgeStage);
+        person.SetId(mongoPerson.Id);
+        return person;
     }
 
 }

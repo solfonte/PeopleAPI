@@ -15,7 +15,7 @@ public class PersonManager {
         if (nameFilter.ContainsKey("FirstName")){
             String firstName = nameFilter["FirstName"];
             foreach (var person in people){
-                if (person.FirstName.Contains(firstName, StringComparison.OrdinalIgnoreCase)){
+                if (person.GetFirstName().Contains(firstName, StringComparison.OrdinalIgnoreCase)){
                     filteredPeople.Add(person);
                 }
             }
@@ -25,7 +25,7 @@ public class PersonManager {
             List<Person> filteredPeopleAux = new List<Person>();
             String lastName = nameFilter["LastName"];
             foreach (var person in filteredPeople){
-                if (person.LastName.Contains(lastName, StringComparison.OrdinalIgnoreCase)){
+                if (person.GetLastName().Contains(lastName, StringComparison.OrdinalIgnoreCase)){
                     filteredPeopleAux.Add(person);
                 }
             }
@@ -59,18 +59,17 @@ public class PersonManager {
         return stage;
     }
     private bool missingArguments (Person person) {
-        return (String.IsNullOrEmpty(person.FirstName) ||
-                String.IsNullOrEmpty(person.LastName) ||
-                String.IsNullOrEmpty(person.NationalID));
+        return (String.IsNullOrEmpty(person.GetFirstName()) ||
+                String.IsNullOrEmpty(person.GetLastName()) ||
+                String.IsNullOrEmpty(person.GetNationalID()));
     }
     private bool personAlreadyExists (Person person) {
         bool personExists = false;
 
-        Person p = _peopleRepository.GetPersonWithNationalID(person.NationalID);  
-        if (!String.IsNullOrEmpty(p.Id) && person.Id != p.Id){
+        Person p = _peopleRepository.GetPersonWithNationalID(person.GetNationalID());  
+        if (!String.IsNullOrEmpty(p.GetNationalID()) && person.GetId() != p.GetId()){
             personExists = true;
         }
-
         return personExists;
     }
 
@@ -81,7 +80,7 @@ public class PersonManager {
         if (personAlreadyExists(person)) {
             throw new PersonAlreadyExistsException();
         }
-        person.AgeStage = defineAgeStage(person.Age);
+        person.SetAgeStage(defineAgeStage(person.GetAge()));
         return _peopleRepository.SavePerson(person);
     }
 
@@ -96,7 +95,7 @@ public class PersonManager {
         if (personAlreadyExists(person)) {
             throw new PersonAlreadyExistsException();
         }
-        person.AgeStage = defineAgeStage(person.Age);
+        person.SetAgeStage(defineAgeStage(person.GetAge()));
         return _peopleRepository.PatchPerson(id, person);
     }
 

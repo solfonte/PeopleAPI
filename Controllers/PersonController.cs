@@ -36,14 +36,29 @@ public class PersonController : ControllerBase {
         Dictionary<String, String> nameFilter;
         nameFilter = makeNameFilter(this.Request.QueryString);
         List<Person> people = _personManager.GetPeople(nameFilter);
-        return Ok(people);
+        List<PersonSchema> peopleResponse = new List<PersonSchema>();
+        foreach (Person p in people){
+            peopleResponse.Add(new PersonSchema(){
+                Id = p.GetId(),
+                FirstName = p.GetFirstName(),
+                LastName = p.GetLastName(),
+                NationalID = p.GetNationalID(),
+                Age = p.GetAge(),
+                AgeStage = p.GetAgeStage()
+            });
+        }
+
+        return Ok(peopleResponse);
     } 
 
     [HttpPost]
-    public IActionResult SavePerson(Person person) {
+    public IActionResult SavePerson(PersonSchema personToSave) {
         try {
+            Person person = new Person(personToSave.FirstName, personToSave.LastName, 
+                                        personToSave.NationalID, personToSave.Age);
             Person p = _personManager.SavePerson(person);
-            return Ok(p);
+            personToSave.Id = p.GetId();
+            return Ok(personToSave);
         }catch (MissingArgumentException MissingArgException) {
             return UnprocessableEntity();
         }catch(PersonAlreadyExistsException AlreadyExistsException) {
@@ -58,12 +73,23 @@ public class PersonController : ControllerBase {
     }
     
     [HttpPatch("{id:length(24)}")]
-    public IActionResult PatchPerson(String id, Person person) {
+    public IActionResult PatchPerson(String id, PersonSchema personToPatch) {
 
         try {
-            person.Id = id;
-            Person p = _personManager.PatchPerson(id, person);
-            return Ok(p);
+            Person person = new Person(personToPatch.FirstName, personToPatch.LastName, 
+                                        personToPatch.NationalID, personToPatch.Age);
+            person.SetAgeStage(personToPatch.AgeStage);
+            person.SetId(id);
+            Person updatedPerson = _personManager.PatchPerson(id, person);
+            PersonSchema personResponse = new PersonSchema(){
+                Id = id,
+                FirstName = updatedPerson.GetFirstName(),
+                LastName = updatedPerson.GetLastName(),
+                NationalID = updatedPerson.GetNationalID(),
+                Age = updatedPerson.GetAge(),
+                AgeStage = updatedPerson.GetAgeStage()
+            };
+            return Ok(personResponse);
         }catch (MissingArgumentException e) {
             return UnprocessableEntity(e.Message);
         }catch(PersonNotFound e){
