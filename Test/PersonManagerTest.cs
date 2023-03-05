@@ -90,8 +90,10 @@ public class PersonManagerTest {
      public void whenTryingToSaveAPersonWithANationalIdAlreadyExistingThePersonManagerThrowsException() {
         PersonManager personManager = new PersonManager(new PeopleRepositoryMock());
         Person person = new Person("John", "Doe", "2222222", 23);
+        Person copyOfPerson = new Person("John", "Doe", "2222222", 23);
+
         personManager.SavePerson(person);
 
-        Assert.Throws<PersonAlreadyExistsException>(() => personManager.SavePerson(person));
+        Assert.Throws<PersonAlreadyExistsException>(() => personManager.SavePerson(copyOfPerson));
     }
 }

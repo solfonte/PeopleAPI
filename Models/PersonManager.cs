@@ -64,10 +64,11 @@ public class PersonManager {
                 String.IsNullOrEmpty(person.GetNationalID()));
     }
     private bool personAlreadyExists (Person person) {
+        
         bool personExists = false;
 
         Person p = _peopleRepository.GetPersonWithNationalID(person.GetNationalID());  
-        if (!String.IsNullOrEmpty(p.GetNationalID()) && person.GetId() != p.GetId()){
+        if (p.GetNationalID() == person.GetNationalID() && person.GetId() != p.GetId()){
             personExists = true;
         }
         return personExists;
