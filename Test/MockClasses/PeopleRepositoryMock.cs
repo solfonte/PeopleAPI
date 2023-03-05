@@ -20,18 +20,17 @@ class PeopleRepositoryMock : IPeopleRepository {
     public void DeletePerson(String id){}
 
     public Person PatchPerson(String id, Person person){
-        return new Person();
+        return new Person("","","",0);
     }
 
     public Person GetPerson(String id){
-        return new Person();
-
+        return new Person("","","",0);
     }
 
     public Person GetPersonWithNationalID(String nationalID){ 
-        Person person = new Person();
+        Person person = new Person("","","",0);
         foreach (Person p in mockPeople){
-            if (p.NationalID == nationalID){
+            if (p.GetNationalID() == nationalID){
                 person = p;
             }
         }

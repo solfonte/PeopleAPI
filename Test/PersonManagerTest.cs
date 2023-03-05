@@ -36,38 +36,23 @@ public class PersonManagerTest {
     [Fact]
     public void whenSavingOnlyOnePersonThePersonManagerSavesItCorrectly() {
         PersonManager personManager = new PersonManager(new PeopleRepositoryMock());
-        Person person = new Person() {
-            FirstName = "John",
-            LastName = "Doe",
-            NationalID = "2222222",
-            Age = 23,
-        };
+        Person person = new Person("John", "Doe", "2222222", 23);
         personManager.SavePerson(person);
         Dictionary<String, String> nameFilter = new Dictionary<string, string>();
         List<Person> people = personManager.GetPeople(nameFilter);
         Assert.Single(people);
-        Assert.Equal(person.FirstName, people[0].FirstName);
-        Assert.Equal(person.LastName, people[0].LastName);
-        Assert.Equal(person.Age, people[0].Age);
-        Assert.Equal(person.NationalID, people[0].NationalID);
-        Assert.Equal("Adulto", people[0].AgeStage);
+        Assert.Equal(person.GetFirstName(), people[0].GetFirstName());
+        Assert.Equal(person.GetLastName(), people[0].GetLastName());
+        Assert.Equal(person.GetAge(), people[0].GetAge());
+        Assert.Equal(person.GetNationalID(), people[0].GetNationalID());
+        Assert.Equal("Adulto", people[0].GetAgeStage());
     }
 
     [Fact]
     public void whenSavingTwoPeopleThePersonManagerSavesItCorrectly() {
         PersonManager personManager = new PersonManager(new PeopleRepositoryMock());
-        Person personOne = new Person() {
-            FirstName = "John",
-            LastName = "Doe",
-            NationalID = "2222222",
-            Age = 23,
-        };
-        Person personTwo = new Person() {
-            FirstName = "John",
-            LastName = "Roe",
-            NationalID = "33333333",
-            Age = 98,
-        };
+        Person personOne = new Person("John", "Doe", "2222222", 23);
+        Person personTwo = new Person("John", "Roe", "33333333", 98);
         personManager.SavePerson(personOne);
         personManager.SavePerson(personTwo);
         Dictionary<String, String> nameFilter = new Dictionary<string, string>();
@@ -78,18 +63,8 @@ public class PersonManagerTest {
     [Fact]
     public void whenFilteringByFirstNameThePersonManagerReturnsTwoPeople() {
         PersonManager personManager = new PersonManager(new PeopleRepositoryMock());
-        Person personOne = new Person() {
-            FirstName = "John",
-            LastName = "Doe",
-            NationalID = "2222222",
-            Age = 23,
-        };
-        Person personTwo = new Person() {
-            FirstName = "John",
-            LastName = "Roe",
-            NationalID = "33333333",
-            Age = 98,
-        };        
+        Person personOne = new Person("John", "Doe", "2222222", 23);
+        Person personTwo = new Person("John", "Roe", "33333333", 98);       
         personManager.SavePerson(personOne);
         personManager.SavePerson(personTwo);
         Dictionary<String, String> nameFilter = new Dictionary<string, string>();
@@ -100,18 +75,8 @@ public class PersonManagerTest {
     [Fact]
      public void whenFilteringByFirstNameAndLastNameThePersonManagerReturnsEmpty() {
         PersonManager personManager = new PersonManager(new PeopleRepositoryMock());
-        Person personOne = new Person() {
-            FirstName = "John",
-            LastName = "Doe",
-            NationalID = "2222222",
-            Age = 23,
-        };
-        Person personTwo = new Person() {
-            FirstName = "John",
-            LastName = "Roe",
-            NationalID = "33333333",
-            Age = 98,
-        };
+        Person personOne = new Person("John", "Doe", "2222222", 23);
+        Person personTwo = new Person("John", "Roe", "33333333", 98);
         personManager.SavePerson(personOne);
         personManager.SavePerson(personTwo);
         Dictionary<String, String> nameFilter = new Dictionary<string, string>();
@@ -124,13 +89,7 @@ public class PersonManagerTest {
     [Fact]
      public void whenTryingToSaveAPersonWithANationalIdAlreadyExistingThePersonManagerThrowsException() {
         PersonManager personManager = new PersonManager(new PeopleRepositoryMock());
-        Person person = new Person() {
-            FirstName = "John",
-            LastName = "Doe",
-            NationalID = "2222222",
-            Age = 23,
-        };
-
+        Person person = new Person("John", "Doe", "2222222", 23);
         personManager.SavePerson(person);
 
         Assert.Throws<PersonAlreadyExistsException>(() => personManager.SavePerson(person));
