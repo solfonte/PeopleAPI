@@ -10,7 +10,6 @@ const sendEditPersonRequest = async (id, body, setResponseStatus) => {
         },
         body: JSON.stringify(body)
       };
-
     await fetch ("person/" + id, editParameters)
             .then((response) => {
                 setResponseStatus({
@@ -25,7 +24,6 @@ const sendEditPersonRequest = async (id, body, setResponseStatus) => {
 
 export const EditPerson = () => {
     let person = JSON.parse(sessionStorage.getItem("personToEdit"))
-    console.log(person)
     const [responseStatus, setResponseStatus] = useState({status: 0});
     const [notify, setNotify] = useState({isOpen: false, message: '', type: ''})
 
@@ -43,7 +41,6 @@ export const EditPerson = () => {
                 message: 'Faltan argumentos',
                 type: 'error'
             })
-            // TTODO: en rojo los required fields   
         }else if (responseStatus.status === 404){
             setNotify({
                 isOpen: true,
@@ -56,7 +53,6 @@ export const EditPerson = () => {
                 message: 'Ya existe una persona con ese numero de DNI',
                 type: 'error'
             })
-            // TTODO: en rojo los required fields   
         }else {
             setNotify({
                 isOpen: true,
