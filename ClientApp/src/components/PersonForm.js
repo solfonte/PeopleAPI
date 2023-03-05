@@ -25,7 +25,6 @@ export default function PersonForm({data, operationType, parentFunction, setNoti
     const [age, setAge] = useState(data["age"]? data["age"] : '');
 
     const HandleClick = () => {
-      console.log("llega bienn")
       parentFunction(firstName, lastName, nationalID, age);
     }
     

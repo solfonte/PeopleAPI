@@ -69,7 +69,6 @@ export default function CustomizedTables() {
     const removeFilter = () => {
       getPeople();
       setFiltered(false);
-      console.log("removed")
     }
 
     const filterToTable = (data) => {
@@ -82,8 +81,6 @@ export default function CustomizedTables() {
         current.filter((person) => person.id !== id));
       setNotify()
     }
-
-    console.log(confirmDialog)
 
     return (
       <div>

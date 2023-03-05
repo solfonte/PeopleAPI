@@ -62,7 +62,6 @@ public class PersonMongoService : IPersonService {
     }
 
     public async Task UpdateAsync(string id, Person updatedPerson){
-        Console.Write(updatedPerson.GetId());
         MongoPerson updatedMongoPerson = new MongoPerson(){
             Id = updatedPerson.GetId(),
             FirstName = updatedPerson.GetFirstName(),
