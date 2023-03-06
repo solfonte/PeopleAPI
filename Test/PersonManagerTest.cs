@@ -96,4 +96,51 @@ public class PersonManagerTest {
 
         Assert.Throws<PersonAlreadyExistsException>(() => personManager.SavePerson(copyOfPerson));
     }
+
+    [Fact]
+    public void whenTryingToEditAPersonTheResultIsCorrect(){
+        PersonManager personManager = new PersonManager(new PeopleRepositoryMock());
+        Person person = new Person("John", "Doe", "2222222", 23);
+        Person patchPerson = new Person("John", "Doe", "3333333", 24);
+
+        Person personResult = personManager.SavePerson(person);
+
+        patchPerson.SetId(personResult.GetId());
+        Person editedPerson = personManager.PatchPerson(personResult.GetId(), patchPerson);
+
+        Assert.Equal("John", editedPerson.GetFirstName());
+        Assert.Equal("Doe", editedPerson.GetLastName());
+        Assert.Equal("3333333", editedPerson.GetNationalID());
+        Assert.Equal(24, editedPerson.GetAge());
+    }
+
+    [Fact]
+    public void whenTryingToEditAPersonWithAnAlreadyExistingNationalIdThePersonManagerThrowsException(){
+        PersonManager personManager = new PersonManager(new PeopleRepositoryMock());
+        Person personOne = new Person("John", "Doe", "2222222", 23);
+        Person personTwo = new Person("Robert", "Doe", "99", 45);
+        Person patchPersonTwo = new Person("Robert", "Doe", "2222222", 45);
+
+        personManager.SavePerson(personOne);
+        Person personTwoResult = personManager.SavePerson(personTwo);
+
+        patchPersonTwo.SetId(personTwoResult.GetId());
+        Assert.Throws<PersonAlreadyExistsException>(() => personManager.PatchPerson(personTwoResult.GetId(), patchPersonTwo));
+    }
+
+    [Fact]
+    public void whenTryingToDeleteAPersonThatWasSavedThePersonManagerRemovesItCorrectly(){
+        PersonManager personManager = new PersonManager(new PeopleRepositoryMock());
+        Person person = new Person("John", "Doe", "2222222", 23);
+        Person personResult = personManager.SavePerson(person);
+
+        personManager.DeletePerson(personResult.GetId());
+        Person result = personManager.GetPerson(personResult.GetId());
+        //Assert.Throws<PersonNotFound>(() => personManager.GetPerson(personResult.GetId()));
+        Assert.Equal(result.GetFirstName(), "");
+        Assert.Equal(result.GetLastName(), "");
+        Assert.Equal(result.GetNationalID(), "");
+        Assert.Equal(result.GetAge(), 0);
+    }
+
 }

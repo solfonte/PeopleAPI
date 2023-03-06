@@ -20,14 +20,37 @@ class PeopleRepositoryMock : IPeopleRepository {
         return person;
     }
 
-    public void DeletePerson(String id){}
+    public void DeletePerson(String id){
+        Person person = new Person("", "", "", 0);
+        foreach(Person p in mockPeople){
+            if (p.GetId() == id){
+                person = p;
+            }
+        }
+        if (!String.IsNullOrEmpty(person.GetNationalID())){
+            mockPeople.Remove(person);
+        }
+    }
+
 
     public Person PatchPerson(String id, Person person){
-        return new Person("","","",0);
+        Person p = new Person("", "", "", 0);
+        for(int i = 0; i < mockPeople.Count; i++){
+            if (mockPeople[i].GetId() == id){
+                mockPeople[i] = person;
+            }
+        }
+        return person;
     }
 
     public Person GetPerson(String id){
-        return new Person("","","",0);
+        Person person = new Person("", "", "", 0);
+        foreach(Person p in mockPeople){
+            if (p.GetId() == id){
+                person = p;
+            }
+        }
+        return person;
     }
 
     public Person GetPersonWithNationalID(string nationalID){ 
