@@ -1,6 +1,8 @@
 using Models;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using System.Text.RegularExpressions;
+using MongoDB.Bson;
 
 namespace Services;
 
@@ -79,6 +81,27 @@ public class PersonMongoService : IPersonService {
         person.SetAgeStage(mongoPerson.AgeStage);
         person.SetId(mongoPerson.Id);
         return person;
+    }
+
+    public async Task<List<Person>> GetPeopleWithName(string firstName, string lastName){
+        var escapeFirstNameText = Regex.Escape(firstName);
+        var firstNameRegex = new Regex(escapeFirstNameText, RegexOptions.IgnoreCase);
+        var escapeLastNameText = Regex.Escape(lastName);
+        var lastNameRegex = new Regex(escapeLastNameText, RegexOptions.IgnoreCase);
+        
+        var firstNamefilter = Builders<MongoPerson>.Filter.Regex("FirstName", BsonRegularExpression.Create(firstNameRegex));
+        var lastNamefilter = Builders<MongoPerson>.Filter.Regex("LastName", BsonRegularExpression.Create(lastNameRegex));
+        var nameFilter = Builders<MongoPerson>.Filter.And(firstNamefilter, lastNamefilter);
+
+        List<MongoPerson> mongoPeople = await _personCollection.Find(nameFilter).ToListAsync();
+        List<Person> people = new List<Person>();
+        foreach(MongoPerson p in mongoPeople){
+            Person person = new Person(p.FirstName, p.LastName, p.NationalID, p.Age);
+            person.SetAgeStage(p.AgeStage);
+            person.SetId(p.Id);
+            people.Add(person);
+        }
+        return people;
     }
 
 }

@@ -14,5 +14,5 @@ public interface IPeopleRepository {
     
     Person GetPersonWithNationalID(String nationalID);
 
-
+     List<Person> GetPeopleWithName (string firstName, string lastName);
 }

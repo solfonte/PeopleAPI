@@ -64,4 +64,14 @@ public class PeopleRepository: IPeopleRepository {
         Task<Person> t = _getPersonWithNationalID(nationalID);
         return t.Result;
     }
+
+    private Task<List<Person>> _getPeopleWithName(string firstName, string lastName){
+        return _personService.GetPeopleWithName(firstName,lastName);
+    }
+
+    public List<Person> GetPeopleWithName (string firstName, string lastName){
+        Task<List<Person>> t = _getPeopleWithName(firstName, lastName);
+        return t.Result;
+    }
+    
 }

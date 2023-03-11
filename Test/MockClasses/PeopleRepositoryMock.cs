@@ -62,4 +62,23 @@ class PeopleRepositoryMock : IPeopleRepository {
         }
         return person;
     }
+
+    public List<Person> GetPeopleWithName (string firstName, string lastName) {
+        List<Person > filteredPeople = new List<Person>();
+        foreach (var person in mockPeople){
+            if (person.GetFirstName().Contains(firstName, StringComparison.OrdinalIgnoreCase)){
+                filteredPeople.Add(person);
+            }
+        }
+
+        List<Person> filteredPeopleAux = new List<Person>();
+        foreach (var person in filteredPeople){
+            if (person.GetLastName().Contains(lastName, StringComparison.OrdinalIgnoreCase)){
+                filteredPeopleAux.Add(person);
+            }
+        }
+        filteredPeople = filteredPeopleAux;
+
+        return filteredPeople;
+    }
 }

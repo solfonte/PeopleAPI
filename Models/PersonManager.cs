@@ -10,29 +10,9 @@ public class PersonManager {
     }
 
     private List<Person> getFilteredPeople (List<Person> people, Dictionary<String, String> nameFilter){
-        List<Person> filteredPeople = new List<Person>();
-        
-        if (nameFilter.ContainsKey("FirstName")){
-            String firstName = nameFilter["FirstName"];
-            foreach (var person in people){
-                if (person.GetFirstName().Contains(firstName, StringComparison.OrdinalIgnoreCase)){
-                    filteredPeople.Add(person);
-                }
-            }
-        }
-
-        if (nameFilter.ContainsKey("LastName")){
-            List<Person> filteredPeopleAux = new List<Person>();
-            String lastName = nameFilter["LastName"];
-            foreach (var person in filteredPeople){
-                if (person.GetLastName().Contains(lastName, StringComparison.OrdinalIgnoreCase)){
-                    filteredPeopleAux.Add(person);
-                }
-            }
-            filteredPeople = filteredPeopleAux;
-        }
-
-        return filteredPeople;
+        string firstName = nameFilter.ContainsKey("FirstName")? nameFilter["FirstName"] : "";
+        string lastName = nameFilter.ContainsKey("LastName")? nameFilter["LastName"] : "";
+        return _peopleRepository.GetPeopleWithName(firstName, lastName);
     }
 
     public List<Person> GetPeople(Dictionary<String, String> nameFilter) {
