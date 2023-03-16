@@ -14,13 +14,13 @@ public class PersonMongoService : IPersonService {
         IOptions<PeopleDatabaseSettings> peopleDatabaseSettings)
     {
         var mongoClient = new MongoClient(
-            peopleDatabaseSettings.Value.ConnectionString);
+             "mongodb+srv://admin:admin@peopleapi.8zfwkla.mongodb.net/?retryWrites=true&w=majority");
 
         var mongoDatabase = mongoClient.GetDatabase(
-            peopleDatabaseSettings.Value.DatabaseName);
+            "People_db");
 
         _personCollection = mongoDatabase.GetCollection<MongoPerson>(
-            peopleDatabaseSettings.Value.PersonCollectionName);
+            "People");
     }
 
     public async Task<List<Person>> getPeople() {
