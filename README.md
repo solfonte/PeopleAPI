@@ -29,6 +29,8 @@ Podemos correr la api con el siguiente comando
 $ dotnet run
 ```
 
+Luego, accedemos a [https://localhost:7232](https://localhost:7232)
+
 ### Para correr la api en un *contenedor*
 
 Primero construimos la imagen desde el directorio raiz
@@ -42,6 +44,7 @@ Luego lo corremos con el siguiente comando
 $ docker run -it --rm -p 8080:80 peopleapi:1.0.0
 ´´´
 
+Por último, accedemos a [https://localhost:8080](https://localhost:8080)
 1. Test
 
 Para correr los tests, ejecutar el siguiente comando desde la ruta del proyecto
@@ -68,7 +71,7 @@ Se utilizo este patron para separar el acceso a datos de la capa de negocio medi
 
 - Diferencia entre filtrar los datos desde el motor de base de datos y hacer el filtro en frontend sin resolverlo a nivel BD.
 
-La diferencia es que los datos se procesan una vez desde la consulta a la base de datos y el frontend solo muestra los resultados. Ademas, se traduce en menos datos siendo transmitidos desde el backend al frontend cuando esto se hace desde el motor de base de datos.
+La diferencia es que los datos se procesan una vez desde la consulta a la base de datos y el frontend solo muestra los resultados. Además, se traduce en menos datos siendo transmitidos desde el backend al frontend cuando esto se hace desde el motor de base de datos.
 
 - Qué tipos de validaciones puede tener un sistema? dónde se debieran implementar?
 
@@ -77,31 +80,28 @@ En el caso de las validaciones de dato por tipo (entero o de tipo string por eje
 En el caso de las validaciones por regla de negocio, se deben hacer en el backend ya que es el que conoce el negocio. 
 En el caso de la autenticacion, tambien es el backend. Sino se podria modificar codigo desde el cliente para enviar al backend informacion falsa.
 
-
 Otras preguntas
 
 1. ¿Qué es un ORM? Ventajas y desventajas.
+Un ORM es un modelo que permite mapear registros de una base de datos relacional a un modelo de objetos.  
+Las ventajas son que aporta facilidad y seguridad al acceso de datos, mientras que la desventaja es que puede disminuir el rendimiento cuando se procesa un volumen alto de datos porque es otra capa mas que se agrega al sistema
 
-
-2. Diferencias entre: cliente de BD vs driver de conexión de BD vs motor de base de datos  (Dar ejemplos)
+1. Diferencias entre: cliente de BD vs driver de conexión de BD vs motor de base de datos  (Dar ejemplos)
 
 
 3. ¿Qué es una API REST?
 
+Una API rest es una interfaz de aplicaciones web que se acopla a las caracteristicas de las arquitecturas de tipo REST. Estas caracteristicas son:
+* Arquitectura cliente servidor
+* Es un sistema sin estado. Los recursos se procesan sin tener en cuenta los anteriores.
+* Es un sistema en capas.
+* Es cacheable.
 
-4. Diferencias entre un test unitario vs un test de integración
 
+1. Diferencias entre un test unitario vs un test de integración
+La diferencia es que en un test unitario se prueba un componente aislado de un sistema, abstrayendose del funcionamiento de los demas componentes mientras que en un test de integracion se prueban todos los componentes funcionando en conjunto.  
 
 5. ¿Para que se usan los mocks en los unit test? 
+Los mocks se usan para abstraerse de los servicios que pueda estar usando un componente para asi probar que este funciona sin depender del funcionamiento de dichos servicios.
 
 
-
-
-
-//TODO: completar
-* documentacion
-* preguntas que habia que responder
-* dockerizar 
-* diagrama de clases 
-* chequear el codigo
-* cambiar filtro
