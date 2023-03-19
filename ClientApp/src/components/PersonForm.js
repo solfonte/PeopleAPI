@@ -22,7 +22,7 @@ export default function PersonForm({data, operationType, parentFunction, setNoti
     const [firstName, setFirstName] = useState(data["firstName"]? data["firstName"] : '');
     const [lastName, setLastName] = useState(data["lastName"]? data["lastName"] : '');
     const [nationalID, setNationalID] = useState(data["nationalID"]? data["nationalID"] : '');
-    const [age, setAge] = useState(data["age"]? data["age"] : '');
+    const [age, setAge] = useState(data["age"]? data["age"] : null);
 
     const HandleClick = () => {
       parentFunction(firstName, lastName, nationalID, age);
@@ -44,16 +44,14 @@ export default function PersonForm({data, operationType, parentFunction, setNoti
         </div>
         <div align="left">
 
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme} textAlign="left">
           <Typography variant="h6">
               <List sx={{ display: 'list-item' }}>
                 <ListItem>El nombre, el apellido y el DNI son campos requeridos.</ListItem>
+                <ListItem>Luego, si ingresaste una edad, vamos a poder calcular la etapa de edad de la persona ingresada.</ListItem>   
+                <ListItem>Si el DNI de la persona ya esta ingresado en la base con un mismo nombre y apellido, no se va a poder crear la persona.</ListItem>  
               </List>
-              
-              El nombre, el apellido y el DNI son campos requeridos.   
-              Luego, si ingresaste una edad, vamos a poder calcular
-              el AgeStage de la persona ingresada.
-              Si el DNI de la persona ya esta ingresado en la base con un mismo nombre y apellido, no se va a poder crear la persona. 
+
           </Typography>
         </ThemeProvider>
         </div>
