@@ -4,7 +4,7 @@ export const People = () => {
 
     return (
         <main>
-            <CustomizedTables people={people}/>
+            <CustomizedTables/>
         </main>
                
     )
