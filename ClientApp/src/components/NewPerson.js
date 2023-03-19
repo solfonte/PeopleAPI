@@ -47,7 +47,7 @@ const sendPostRequest = async (body) => {
     };
 
     let response = await fetch (
-        `person/`,
+        `people/`,
         postParameters
     )
     

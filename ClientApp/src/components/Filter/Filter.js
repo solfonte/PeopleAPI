@@ -7,7 +7,7 @@ import { useState} from 'react';
 export default function Filter({ filterToTable }) {
     const [FilterFirstName, setFilterFirstName] = useState('');
     const [FilterLastName, setFilterLastName] = useState('');
-    let queryString = `/person?`
+    let queryString = `/people?`
     queryString += FilterFirstName ? `FirstName=${encodeURIComponent(FilterFirstName)}` : ``
     queryString += FilterFirstName && FilterLastName ? `&` : ``;
     queryString += FilterLastName ? `LastName=${encodeURIComponent(FilterLastName)}` : ``;

@@ -47,7 +47,7 @@ export default function CustomizedTables() {
     const [confirmDialog, setConfirmDialog] = useState({isOpen: false, title:'', subtitle:''});
     
     useEffect(() => {
-        fetch(`person`)
+        fetch(`people`)
         .then((results) => {
             return results.json();
         })
@@ -57,7 +57,7 @@ export default function CustomizedTables() {
       },[]);
 
     const getPeople = async () => {
-      await fetch(`person`)
+      await fetch(`people`)
         .then((results) => {
             return results.json();
         })

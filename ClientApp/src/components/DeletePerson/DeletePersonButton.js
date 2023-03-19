@@ -9,7 +9,7 @@ const sendDeletePersonRequest = async (id) => {
         'Content-Type': 'application/json',
     },
   };
-  return await fetch (`person/${id}`, deleteParameters)
+  return await fetch (`people/${id}`, deleteParameters)
 
 }
 

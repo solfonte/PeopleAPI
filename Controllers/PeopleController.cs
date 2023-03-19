@@ -8,11 +8,11 @@ namespace Controllers;
 [ApiController]
 [Route("[controller]")]
 
-public class PersonController : ControllerBase {
+public class PeopleController : ControllerBase {
 
     private readonly PersonManager _personManager;
 
-    public PersonController (PersonManager personManager) =>
+    public PeopleController (PersonManager personManager) =>
         _personManager = personManager;
 
 
