@@ -59,9 +59,9 @@ public class PersonController : ControllerBase {
             Person p = _personManager.SavePerson(person);
             personToSave.Id = p.GetId();
             return Ok(personToSave);
-        }catch (MissingArgumentException MissingArgException) {
-            return UnprocessableEntity();
-        }catch(PersonAlreadyExistsException AlreadyExistsException) {
+        }catch (MissingArgumentException) {
+            return UnprocessableEntity("Faltan argumentos");
+        }catch(PersonAlreadyExistsException) {
             return Conflict();
         }
     }
@@ -94,7 +94,7 @@ public class PersonController : ControllerBase {
             return UnprocessableEntity(e.Message);
         }catch(PersonNotFound e){
             return NotFound(e.Message);
-        }catch(PersonAlreadyExistsException e){
+        }catch(PersonAlreadyExistsException){
             return Conflict();
         }
     }

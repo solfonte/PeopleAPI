@@ -9,6 +9,15 @@ public class PersonManager {
         _peopleRepository = peopleRepository;
     }
 
+    private void validatePerson(Person person){
+        if (missingArguments(person)){
+            throw new MissingArgumentException();
+        }
+        if (personAlreadyExists(person)) {
+            throw new PersonAlreadyExistsException();
+        }
+    }
+
     private List<Person> getFilteredPeople (List<Person> people, Dictionary<String, String> nameFilter){
         string firstName = nameFilter.ContainsKey("FirstName")? nameFilter["FirstName"] : "";
         string lastName = nameFilter.ContainsKey("LastName")? nameFilter["LastName"] : "";
@@ -21,7 +30,7 @@ public class PersonManager {
         return getFilteredPeople(people, nameFilter);
     }
 
-    public String defineAgeStage (int? age) {
+    public String defineAgeStage (uint? age) {
         List<String> ageStages = new List<String> {"Niño", "Adolescente", "Adulto", "Octogenario"};
         String stage = "";
 
@@ -55,12 +64,7 @@ public class PersonManager {
     }
 
     public Person SavePerson(Person person) {
-        if (missingArguments(person)){
-            throw new MissingArgumentException();
-        }
-        if (personAlreadyExists(person)) {
-            throw new PersonAlreadyExistsException();
-        }
+        validatePerson(person);
         person.SetAgeStage(defineAgeStage(person.GetAge()));
         return _peopleRepository.SavePerson(person);
     }
@@ -70,12 +74,7 @@ public class PersonManager {
     }
 
     public Person PatchPerson(String id, Person person) {
-        if (missingArguments(person)){
-            throw new MissingArgumentException();
-        }
-        if (personAlreadyExists(person)) {
-            throw new PersonAlreadyExistsException();
-        }
+        validatePerson(person);
         person.SetAgeStage(defineAgeStage(person.GetAge()));
         return _peopleRepository.PatchPerson(id, person);
     }

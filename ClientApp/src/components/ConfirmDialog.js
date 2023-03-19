@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred';
 
 export default function ConfirmDialog (props){
-    const {title, subtitle, color, confirmDialog, setConfirmDialog} = props;
+    const {confirmDialog, setConfirmDialog} = props;
 
     const executeConfirmation = async () => {
         setConfirmDialog({...confirmDialog, isOpen:false})

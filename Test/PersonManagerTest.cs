@@ -111,7 +111,7 @@ public class PersonManagerTest {
         Assert.Equal("John", editedPerson.GetFirstName());
         Assert.Equal("Doe", editedPerson.GetLastName());
         Assert.Equal("3333333", editedPerson.GetNationalID());
-        Assert.Equal(24, editedPerson.GetAge());
+        Assert.Equal("24", editedPerson.GetAge().ToString());
     }
 
     [Fact]
@@ -136,11 +136,10 @@ public class PersonManagerTest {
 
         personManager.DeletePerson(personResult.GetId());
         Person result = personManager.GetPerson(personResult.GetId());
-        //Assert.Throws<PersonNotFound>(() => personManager.GetPerson(personResult.GetId()));
         Assert.Equal(result.GetFirstName(), "");
         Assert.Equal(result.GetLastName(), "");
         Assert.Equal(result.GetNationalID(), "");
-        Assert.Equal(result.GetAge(), 0);
+        Assert.Equal(result.GetAge().ToString(), "0");
     }
 
 }

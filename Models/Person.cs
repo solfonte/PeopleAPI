@@ -3,14 +3,14 @@
 namespace Models;
 
 public class Person {
-    private string id;
+    private string id = default!;
     private string firstName;
     private string lastName;
     private string nationalID;
-    private int age;
+    private uint? age;
     private string? ageStage;
 
-    public Person (string firstName, string lastName, string nationalID, int age){
+    public Person (string firstName, string lastName, string nationalID, uint? age){
         this.firstName = firstName;
         this.lastName = lastName;
         this.nationalID = nationalID;
@@ -30,7 +30,7 @@ public class Person {
     public string GetNationalID(){
         return nationalID;
     }
-    public int GetAge(){
+    public uint? GetAge(){
         return age;
     }
     public string GetAgeStage(){

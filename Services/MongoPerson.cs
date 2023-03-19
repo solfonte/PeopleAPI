@@ -12,7 +12,7 @@ public class MongoPerson {
 
     public string NationalID {get; set;} = default!;
 
-    public int Age {get; set;}
+    public uint? Age {get; set;}
 
-    public string AgeStage {get; set;} = default!;
+    public string? AgeStage {get; set;} = default!;
 }
