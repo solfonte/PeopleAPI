@@ -21,15 +21,13 @@ const notifyResult = (status, setNotify) => {
             isOpen: true,
             message: 'Faltan argumentos',
             type: 'error'
-        })
-        // TODO: en rojo los required fields   
+        }) 
     }else if (status === 409){
         setNotify({
             isOpen: true,
             message: 'Ya existe una persona con ese numero de DNI',
             type: 'error'
-        })
-        // TODO: en rojo los required fields   
+        })  
     }else {
         setNotify({
             isOpen: true,

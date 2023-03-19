@@ -27,7 +27,33 @@ export default function PersonForm({data, operationType, parentFunction, setNoti
     const HandleClick = () => {
       parentFunction(firstName, lastName, nationalID, age);
     }
-    
+
+    const handleAgeChange = (e) => {
+      const regex = /^[0-9\b]+$/;
+      if (e.target.value === "" || regex.test(e.target.value)) {
+        setAge(e.target.value)
+      }else{
+        setNotify({
+          isOpen: true,
+          message: 'Sólo se aceptan numeros positivos de edad',
+          type: 'error'
+      })
+      }
+    }
+
+    const handleNationalIDChange = (e) => {
+      const regex = /^[0-9\b]+$/;
+      if (e.target.value === "" || regex.test(e.target.value)) {
+        setNationalID(e.target.value)
+      }else{
+        setNotify({
+          isOpen: true,
+          message: 'Sólo se aceptan numeros positivos de DNI',
+          type: 'error'
+      })
+      }
+    }
+
     return (
       <Box
         component="form"
@@ -81,14 +107,14 @@ export default function PersonForm({data, operationType, parentFunction, setNoti
             type="number"
             variant="standard"
             value={nationalID}
-            onChange={(event) => {setNationalID(event.target.value)}}
+            onChange={(e) => {handleNationalIDChange(e)}}
           />
           <TextField
             label="Edad"
             type="number"
             variant="standard"
             value={age}
-            onChange={(event) => {setAge(event.target.value)}}
+            onChange={(e) => {handleAgeChange(e)}}
           />
         </Box>
         <Button
